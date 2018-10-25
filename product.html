@@ -9,17 +9,23 @@
 
 <body>
     <form action="/products" method="GET">
-        <select name="itemDesc" id="itemDesc">
-            <option value="shirt">Shirt</option>
-            <option value="bag">Bag</option>
-        </select>
-        <select name="itemColor" id="itemColor">
-            <option value="Red">Red</option>
-            <option value="Blue">Blue</option>
-            <option value="Yellow">Yellow</option>
-        </select>
-        
-        <input type="submit">
+        <div>
+            Select any Descrpition:
+            <select name="itemDesc" id="itemDesc">
+                <option value="shirt">Shirt</option>
+                <option value="bag">Bag</option>
+            </select>
+        </div>
+        <br/>
+        <div> Select any Color:
+            <select name="itemColor" id="itemColor">
+                <option value="Red">Red</option>
+                <option value="Blue">Blue</option>
+                <option value="Yellow">Yellow</option>
+            </select>
+        </div>
+        <br/>
+        <input type="submit" label="Search" name"Search">
     </form>
 </body>
 

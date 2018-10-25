@@ -127,9 +127,9 @@ var product_Details = [
     },
 ]
 var linkString = ""
-app.getLink = function (pageToVisit) {
-    console.log("getLink: ");
-    
+getLink = function (pageToVisit) {
+    // console.log("getLink: ");
+
     request(pageToVisit, function (error, response, body) {
         if (error) {
             console.log("Error: " + error);
@@ -141,21 +141,24 @@ app.getLink = function (pageToVisit) {
                 if (link.indexOf("http") != -1 && links.indexOf(link) == -1) {
                     links.push(link);
                     linkString = linkString + link + "\n";
-                    console.log("link " + link);
+                    //  console.log("link " + link);
                     if (link.indexOf(pageToVisit) != -1 && link != pageToVisit) {
+                        //console.log("link " + link);
                         getLink(link)
-                        fs.writeFile("./plainText.txt", link, function (err) {
-                            if (err) {
-                                return console.log(err);
-                            }
-                            response.end("Data has been saved in plainText.txt");
-                        });
                     }
                 }
             });
+
         }
+        fs.writeFile("./plainText.txt", linkString, function (err) {
+            if (err) {
+                return console.log(err);
+            }
+        });
     });
+    return null;
 }
+
 function firstNonRepChar(string) {
     if (string != "") {
         for (var i = 0; i < string.length; i++) {
@@ -171,7 +174,7 @@ function firstNonRepChar(string) {
 }
 
 app.use(bodyParser());
-app.getLink(pageToVisit)
+getLink(pageToVisit);
 app.get("/", function (request, response) {
     response.sendFile("index.html", { root: path.join(__dirname, "/") })
 });
@@ -212,15 +215,7 @@ app.get("/firstNonRepChar", function (request, response) {
 app.get("/saveContent", function (request, response) {
     response.sendFile("saveContent.html", { root: path.join(__dirname, "/") })
 });
-app.get("/plain", function (request, response) {
-    //response.sendFile("saveContent.html", { root: path.join(__dirname, "/") })
-    fs.writeFile("./plainText.txt", linkString, function (err) {
-        if (err) {
-            return console.log(err);
-        }
-        response.end("Data has been saved in plainText.txt\n " + linkString);
-    });
-});
+
 app.post('/firstNonRepChar', function (request, response) {
     //console.log(request.params)
     try {
@@ -246,20 +241,26 @@ app.post('/saveContent', function (request, response) {
     catch (error) {
     }
 });
-app.get("/plain", function (request, response) {
-    console.log("request.query")
-    // setTimeout(function(){ alert("Hello"); }, 3000);
-    // getLink(pageToVisit)
-    response.writeHead(200, { 'Content-Type': 'text/plain' });
-    try {
-        var element = "";
-        for (let index = 0; index < links.length; index++) {
-            element = element + links[index] + "\n";
+// app.get("/plain", function (request, response) {
+//     //response.sendFile("saveContent.html", { root: path.join(__dirname, "/") })
+//     fs.writeFile("./plainText.txt", linkString, function (err) {
+//         if (err) {
+//             return console.log(err);
+//         }
+//        console.log("Data has been saved in plainText.txt\n " );
+//     });
+// });
+app.get("/plain", function (request, response) {   
+        response.writeHead(200, { 'Content-Type': 'text/plain' });
+        try {
+            var element = "";
+            for (let index = 0; index < links.length; index++) {
+                element = element + links[index] + "\n";
+            }
+            response.end(element)
         }
-        response.end(element)
-    }
-    catch (error) {
-    }
+        catch (error) {
+        }
 });
 
 module.exports = app;

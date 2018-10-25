@@ -5,10 +5,9 @@ var app = require('../app');
 var server = app.listen(3002, function () {
     console.log('Server running at http://127.0.0.1:3002/');
 });
-var pageToVisit = "https://wiprodigital.com";
-app.getLink(pageToVisit);
+
 describe("returns 200", function () {
-    this.timeout(10000);
+    this.timeout(20000);
 
     it("Testing for /", function (done) {
         request.get({ url: 'http://127.0.0.1:3002/' }, function (error, response, body) {
