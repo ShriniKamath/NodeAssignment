@@ -1,0 +1,24 @@
+{
+  "name": "node-assignment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index,js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --timeout 10000"
+  },
+  "author": "Srinivas Kamath",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "1.18.3",
+    "chai": "^4.2.0",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.4",
+    "mocha": "^5.2.0",
+    "path": "^0.12.7",
+    "request": "^2.88.0",
+    "url-parse": "^1.4.3"
+  }
+}
