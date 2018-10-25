@@ -127,9 +127,8 @@ var product_Details = [
     },
 ]
 var linkString = ""
+//This function is recursive to get the link from the Webcrawer and write in file plainText.txt
 getLink = function (pageToVisit) {
-    // console.log("getLink: ");
-
     request(pageToVisit, function (error, response, body) {
         if (error) {
             console.log("Error: " + error);
@@ -158,7 +157,7 @@ getLink = function (pageToVisit) {
     });
     return null;
 }
-
+////This function is to find the character which is non repeative
 function firstNonRepChar(string) {
     if (string != "") {
         for (var i = 0; i < string.length; i++) {
@@ -175,12 +174,27 @@ function firstNonRepChar(string) {
 
 app.use(bodyParser());
 getLink(pageToVisit);
+//This GET API start the page with index.html
 app.get("/", function (request, response) {
     response.sendFile("index.html", { root: path.join(__dirname, "/") })
 });
+
+//This GET API loades the page product.html when /product is called
 app.get("/product", function (request, response) {
     response.sendFile("product.html", { root: path.join(__dirname, "/") })
 });
+
+//This GET API loades the page firstNonRepChar.html when /firstNonRepChar is called
+app.get("/firstNonRepChar", function (request, response) {
+    response.sendFile("firstNonRepChar.html", { root: path.join(__dirname, "/") })
+});
+
+//This GET API loades the page saveContent.html when /saveContent is called
+app.get("/saveContent", function (request, response) {
+    response.sendFile("saveContent.html", { root: path.join(__dirname, "/") })
+});
+
+//This GET API loades the page return the product or message taking 2 params itemDesc and itemColor
 app.get("/products", function (request, response) {
     //  console.log(request.query, "===", request.query.itemDesc, "===", request.query.itemColor)
     if (request.query.itemDesc != undefined && request.query.itemColor != undefined) {
@@ -209,13 +223,8 @@ app.get("/products", function (request, response) {
 
     }
 });
-app.get("/firstNonRepChar", function (request, response) {
-    response.sendFile("firstNonRepChar.html", { root: path.join(__dirname, "/") })
-});
-app.get("/saveContent", function (request, response) {
-    response.sendFile("saveContent.html", { root: path.join(__dirname, "/") })
-});
 
+//This POST API with will take myName as parameter and return first non repitative charater or message
 app.post('/firstNonRepChar', function (request, response) {
     //console.log(request.params)
     try {
@@ -224,6 +233,8 @@ app.post('/firstNonRepChar', function (request, response) {
     catch (error) {
     }
 });
+
+//This POST API with will take myName as parameter and save the Content in the file.
 app.post('/saveContent', function (request, response) {
     //console.log(request.params)
     try {
@@ -241,15 +252,7 @@ app.post('/saveContent', function (request, response) {
     catch (error) {
     }
 });
-// app.get("/plain", function (request, response) {
-//     //response.sendFile("saveContent.html", { root: path.join(__dirname, "/") })
-//     fs.writeFile("./plainText.txt", linkString, function (err) {
-//         if (err) {
-//             return console.log(err);
-//         }
-//        console.log("Data has been saved in plainText.txt\n " );
-//     });
-// });
+//This GET API with get the webcrawler list and display in UI
 app.get("/plain", function (request, response) {   
         response.writeHead(200, { 'Content-Type': 'text/plain' });
         try {
